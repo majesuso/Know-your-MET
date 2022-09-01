@@ -5,8 +5,10 @@ function App() {
 
 
   const [objectsID, setObjectsID] = useState([]);
-  const [objectsData, setObjectsData] = useState([]);
+  // const [objectsData, setObjectsData] = useState([]);
+  const [departmentsData, setDepartmentsData] = useState([]);
 
+  // trayendo ID objetos
   useEffect(() => {
 
     fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects')
@@ -16,21 +18,32 @@ function App() {
 
   }, []);
 
+  // // trayendo data de los objetos(obras)
+  // useEffect(() => {
+
+  //   fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/[objectID]')
+  //     .then(response => response.json())
+  //     .then(data => setObjectsData(data))
+  //     .catch(e => console.error(e.message));
+
+  // }, []);
+
+  // trayendo departamentos de colecciones 
   useEffect(() => {
 
     fetch('https://collectionapi.metmuseum.org/public/collection/v1/departments')
       .then(response => response.json())
-      .then(data => setObjectsData(data))
+      .then(data => setDepartmentsData(data.departments))
       .catch(e => console.error(e.message));
 
   }, []);
 
   //console.log(objectsID);
-  console.log(objectsData.departments);
+  // console.log(departmentsData);
 
-  const departmentName = objectsData.departments.map(function (department) {
+  const departmentName = departmentsData.map(function(department) {
     return (
-      <li>{department.displayName}</li>
+      <li key={department.id}>{department.displayName}</li>
     )
   });
 
