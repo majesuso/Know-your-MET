@@ -1,11 +1,12 @@
 import './App.css';
 import { useState, useEffect } from "react";
+//https://metmuseum.github.io/#search link api
 
 function App() {
 
 
   const [objectsID, setObjectsID] = useState([]);
-  // const [objectsData, setObjectsData] = useState([]);
+  const [objectsData, setObjectsData] = useState([]);
   const [departmentsData, setDepartmentsData] = useState([]);
 
   // trayendo ID objetos
@@ -18,15 +19,15 @@ function App() {
 
   }, []);
 
-  // // trayendo data de los objetos(obras)
-  // useEffect(() => {
+  // trayendo data de los objetos(obras)
+  useEffect(() => {
 
-  //   fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/[objectID]')
-  //     .then(response => response.json())
-  //     .then(data => setObjectsData(data))
-  //     .catch(e => console.error(e.message));
+    fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${1}`)
+      .then(response => response.json())
+      .then(data => setObjectsData(data))
+      .catch(e => console.error(e.message));
 
-  // }, []);
+  }, []);
 
   // trayendo departamentos de colecciones 
   useEffect(() => {
@@ -38,8 +39,8 @@ function App() {
 
   }, []);
 
-  //console.log(objectsID);
-  // console.log(departmentsData);
+  // console.log(objectsID);
+  console.log(objectsData);
 
   const departmentName = departmentsData.map(function(department) {
     return (
