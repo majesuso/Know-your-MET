@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 function App() {
 
 
-  const [objectsID, setObjectsID] = useState([]);
+  const [objectIDs, setObjectIDs] = useState([]);
   const [objectsData, setObjectsData] = useState([]);
   const [departmentsData, setDepartmentsData] = useState([]);
 
@@ -14,20 +14,27 @@ function App() {
 
     fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects')
       .then(response => response.json())
-      .then(data => setObjectsID(data))
+      .then(data => setObjectIDs(data.objectIDs))
       .catch(e => console.error(e.message));
 
   }, []);
+
+  //console.log(objectIDs);
 
   // trayendo data de los objetos(obras)
   useEffect(() => {
 
-    fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${1}`)
-      .then(response => response.json())
-      .then(data => setObjectsData(data))
-      .catch(e => console.error(e.message));
+    
+    objectIDs.forEach((id) =>  {
+      fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`)
+    .then(response => response.json())
+    .then(data => setObjectsData(objectsData.concat(data)))
+    .catch(e => console.error(e.message))
+    }
+    )
 
   }, []);
+
 
   // trayendo departamentos de colecciones 
   useEffect(() => {
@@ -39,8 +46,6 @@ function App() {
 
   }, []);
 
-  // console.log(objectsID);
-  console.log(objectsData);
 
   const departmentName = departmentsData.map(function(department) {
     return (
@@ -52,7 +57,7 @@ function App() {
   return (
     <div className="App">
       <p> hola Señoras bienvenidas al metmuseum </p>
-      <p> Selecciona el depto</p>
+      <p> colecciones  || destacados ||  buscar </p> 
       <ul>
           {departmentName}
       </ul>
